@@ -3,6 +3,7 @@ class AppConfig {
   // After deploying to Render, replace with your Render URL
   static const String baseUrl = String.fromEnvironment(
     'BASE_URL',
-    defaultValue: 'http://10.0.2.2:3000',
+    // defaultValue: 'http://10.0.2.2:3000',
+    defaultValue: 'https://quick-slot-iapy.onrender.com',
   );
 }

@@ -10,8 +10,7 @@ router.get('/', async (req, res) => {
     const result = await pool.query('SELECT * FROM venues ORDER BY id');
     res.json({ venues: result.rows });
   } catch (err) {
-    console.error('GET /venues error:', err.message);
-    res.status(500).json({ error: 'Internal server error', detail: err.message });
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
