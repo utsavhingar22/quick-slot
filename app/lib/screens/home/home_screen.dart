@@ -67,8 +67,20 @@ class HomeScreen extends ConsumerWidget {
                       onRefresh: () async => ref.invalidate(venuesProvider),
                       child: ListView.builder(
                         padding: const EdgeInsets.symmetric(vertical: 8),
-                        itemCount: venues.length,
-                        itemBuilder: (_, i) => _VenueCard(venue: venues[i]),
+                        itemCount: venues.length + 1,
+                        itemBuilder: (_, i) {
+                          if (i == 0) {
+                            return Padding(
+                              padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                              child: Text(
+                                '${venues.length} venues near you in Bengaluru',
+                                style: TextStyle(
+                                    fontSize: 13, color: Colors.grey[500]),
+                              ),
+                            );
+                          }
+                          return _VenueCard(venue: venues[i - 1]);
+                        },
                       ),
                     ),
             ),
