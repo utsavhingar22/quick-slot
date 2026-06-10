@@ -82,3 +82,8 @@ class CancelNotifier extends AsyncNotifier<void> {
 
 final cancelProvider =
     AsyncNotifierProvider<CancelNotifier, void>(CancelNotifier.new);
+
+// Time-of-day slot filter per venue
+final slotFilterProvider = StateProvider.family<String, int>(
+  (ref, venueId) => 'All',
+);
