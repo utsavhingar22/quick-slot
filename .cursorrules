@@ -1,0 +1,54 @@
+# QuickSlot — Cursor Rules
+# Drop this file as `.cursorrules` in your quick-slot/ root folder
+
+## Project identity
+This is a hackathon project called QuickSlot — a sports slot booking app.
+Stack: Node.js + Express + PostgreSQL (Supabase) for backend; Flutter + Riverpod for mobile app.
+
+## Structure rules
+- Backend lives in `server/` — do NOT move or rename files there
+- Flutter app lives in `app/` — do NOT restructure lib/ folders
+- Never create files outside server/ or app/
+
+## Backend rules
+- Always use `pg` (node-postgres) — never suggest Prisma, Sequelize, or any other ORM
+- Always use the pool from `db/pool.js` — never create new Pool instances elsewhere
+- The bookings route MUST use `SELECT ... FOR UPDATE` inside a transaction — never change this
+- Status codes: 201 for created, 409 for conflict/already booked, 400 for bad input, 404 for not found, 401 for unauth
+- Never add JWT or session auth — X-User-Id header is intentional
+- Never use async route handlers without try/catch and client.release() in a finally block
+
+## Flutter rules
+- State management: flutter_riverpod ONLY — never suggest Provider, Bloc, GetX, or MobX
+- Use FutureProvider for read-only async data
+- Use AsyncNotifierProvider for actions (booking, cancel)
+- Use StateProvider.family for per-venue state (selected date)
+- NEVER put business logic or API calls inside Widget build() methods
+- ALWAYS handle loading, error, and empty states in every screen
+- Use ShimmerList for loading, ErrorState for errors, EmptyState for empty — these are in widgets/common_widgets.dart
+- Use ConsumerWidget, not StatefulWidget + Consumer
+- Never use setState() — everything goes through providers
+
+## Code style
+- Prefer const constructors everywhere in Flutter
+- Use named parameters for model constructors
+- Keep widget files under 200 lines — extract sub-widgets when larger
+- No print() in Flutter — use debugPrint() only in development
+
+## What NOT to do
+- Do not add new packages to pubspec.yaml without being asked
+- Do not add websockets, push notifications, or Firebase
+- Do not add authentication beyond X-User-Id header
+- Do not refactor folder structure
+- Do not create a splash screen or onboarding flow
+- Do not add animations beyond AnimatedContainer
+
+## Defense round prep — be ready to explain:
+1. Why Riverpod over Provider/Bloc?
+   → Compile-time safety, no BuildContext dependency, better devtools, auto-dispose
+2. Why SELECT FOR UPDATE?
+   → Row-level locking in Postgres ensures exactly one transaction wins; others wait and see the updated status
+3. Why FutureProvider.family for slots?
+   → Each (venueId, date) pair is a unique cache key; changing date auto-invalidates old data
+4. Why UNIQUE constraint on bookings.slot_id?
+   → Belt-and-suspenders: even if app logic fails, DB enforces one booking per slot
