@@ -7,18 +7,18 @@ Mini sports slot booking app — badminton courts & turf grounds.
 ### Backend
 ```bash
 cd server && cp .env.example .env
-# Set DATABASE_URL to your Supabase connection string
+# Set DATABASE_URL to your Neon.tech Postgres connection string
 npm install && node index.js
 ```
 
 ### Flutter
 ```bash
-cd app && flutter pub get && flutter run
+cd app && fvm flutter pub get && fvm flutter run
 ```
 
 ## Architecture
 
-Backend: Node.js + Express REST API with Supabase (Postgres) via the `pg` library.
+Backend: Node.js + Express REST API with Neon.tech (Postgres) via the `pg` library. Deployed on Render.
 Flutter frontend uses Riverpod for state management — FutureProviders for async data,
 NotifierProviders for actions (booking, cancel), StateProvider.family for per-venue date selection.
 
@@ -29,13 +29,12 @@ COMMIT. A second concurrent request blocks at the lock, then sees `status='booke
 
 ## What I cut
 - Full JWT auth (replaced with X-User-Id header as permitted)
-- Slot polling / websockets (core flow prioritised)
 - Unit tests (ran out of time; booking logic is the obvious test target)
 
 ## What I'd add with one more day
-- Slot status polling every 10s on the venue detail screen
 - Offline cache for My Bookings using SharedPreferences
 - Unit test for the booking concurrency path
+- Push notifications on slot cancellation
 
 ## AI usage
 Used Claude/Cursor to scaffold boilerplate files, generate model fromJson methods,
